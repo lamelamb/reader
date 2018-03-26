@@ -133,7 +133,7 @@
 				              	  	  	 Doms.oContent.style.fontSize =(fontsize+1)  +'px' ;
 				              	  	  }
 				              	  	  if( _this.innerHTML =='小号'){
-				              	  	  	    if(fontsize < 24)  return ;
+				              	  	  	    if(fontsize < 12)  return ;
 				              	  	  	 Doms.oContent.style.fontSize =(fontsize-1)  +'px' ;
 				              	  	  }
 				              	  	 if(Doms.oContent.style.fontSize){
