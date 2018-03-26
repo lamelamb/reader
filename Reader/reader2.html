@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<!--<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">-->
+		<title>阅读器</title>
+		<!-- 手机自适应js脚本 -->
+		<script type="text/javascript" src="lib/mobile-util.js" ></script>
+		<!-- 引用jq 和插件 -->
+		<script type="text/javascript" src="lib/zepto.min.js" ></script>
+		<script>
+			// 见jquery 指向zepto.min.js ，这样后面2个基于jquey 的插件就不会报错(所以要写在引入2个差几件前面)，找不到juery
+			  window.jQuery = $;
+		</script>
+		<script type="text/javascript" src="lib/jquery.base64.js" ></script>
+		<script type="text/javascript" src="lib/jquery.jsonp.js" ></script>
+		<!-- 项目js ,css -->
+		<script type="text/javascript" src="js/reader.js" ></script>
+		<link rel="stylesheet" href="css/reader2.css" />		
+	</head>        
+	<body>
+		<div class="box">
+			<div id="header">
+				<span></span>
+				<span>返回书架</span>
+			</div>
+			<div id="clickMask"></div>
+			<div id="upNdown" class="down"></div>
+			<div id="content">	
+				<div id="words"></div>
+				<div id="chapters" style="transition: .5s; transform: translateX(-100%);">
+					<span id="title">目录</span>
+					<div id="chapterBox">						
+					</div>
+					<div id="maskOfchapterBox"></div>
+				</div>
+			</div>
+			<div id="page">
+				<span id="prevPage">上一页</span>
+				<span id="nextPage">下一页</span>
+			</div>
+			<div id="controles">
+				<div class="action">				
+					<div  class="fBox">
+						<div class="fontsize">
+							<span>字号</span>
+						    <span>大号</span>
+						    <span>小号</span>
+						</div>
+						<div class="bgColor">
+							<span>背景</span>
+						    <span style="background-color: lightblue;" ></span>
+						    <span style="background-color: lightcoral;"></span>
+						    <span style="background-color: lightcyan;" class="bgColorActive"></span>
+						    <span style="background-color: lightgoldenrodyellow;"></span>
+						    <span style="background-color: lightgreen;"></span>
+						</div>
+					</div>					
+				</div>
+				<div class="actionName">
+					<div class="category ">
+						<span></span>
+						<span>目录</span>
+					</div>
+					<div  class="font">
+						<span></span>
+						<span>字体</span>
+					</div>
+					<div  class="nightOrday">
+						<span class="night"></span>
+						<span>夜间</span>
+					</div>										
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
