@@ -29,6 +29,7 @@
 				        var oChapterBox = document.getElementById('oChapterBox');
 				        var oMaskOfchapterBox = document.getElementById('maskOfchapterBox');
 				        var oupNdown = document.getElementById('upNdown');
+				        var oshowfontsize = document.getElementById('showfontsize');
 				       
                       return {
 				            	'oHeader':oHeader ,
@@ -50,7 +51,7 @@
 				            	'oChapterBox':oChapterBox,
 				            	'oMaskOfchapterBox':oMaskOfchapterBox,
 				            	'oupNdown':oupNdown,
-
+                                'oshowfontsize':oshowfontsize
 				            };
 			                  })();
 			      
@@ -154,11 +155,14 @@
 			 	 	 	     continue ;
 			 	 	 	     clickActive(oBgColor.children[i],'bgColorActive');
 			 	 	 }
-			 	 
 			 	 }
 			 	 if(utils.myLocalstorage('contentfontsize')){
 			 	 	 Doms.oContent.style.fontSize = utils.myLocalstorage('contentfontsize');
-			 	 }
+					 Doms.oshowfontsize.innerHTML = utils.myLocalstorage('contentfontsize');
+			 	 }else{
+					 var rem =  document.getElementsByTagName('html')[0].style.fontSize 
+					  Doms.oshowfontsize.innerHTML = 0.5* parseInt(rem)+ 'px';
+				 }
 			 	 
 			 	  // 保存用户看到的章节 ,默认从第一章开始
 			 	  if(utils.myLocalstorage('Chapter_id')){			    
@@ -171,6 +175,7 @@
 			 	   function (){
 			 	   	        // 初始化
 			 	            init();
+							eventBind();
 			 	            dataNview();
 			 	          
 			             })();
@@ -239,8 +244,8 @@
 			   }
 			   
 			 // 业务逻辑,事件绑定
-			  var eventBind =(
-			  	    function(){
+			  
+			  	    function eventBind (){
 			  		  
 			  		  // 点击唤出上下控制层
 			  		  Doms.oClickMask.addEventListener('click',function(){			    	 			    	
@@ -358,12 +363,17 @@
                                      Doms.oContent.style.fontSize= getComputedStyle( Doms.oContent, null)['fontSize'] ;		              	  	 
 				              	  	  var fontsize = parseInt(Doms.oContent.style.fontSize);
 				              	  	  if( eTarget.innerHTML =='大号'){
-				              	  	  	    if(fontsize > 75) alert('已经最大字号了！')   return ;
-				              	  	  	 Doms.oContent.style.fontSize =(fontsize+1)  +'px' ;
+				              	  	  	    if(fontsize > 75) { 
+												alert('已经最大字号了！');
+												   return;
+											}
+				              	  	  	 Doms.oContent.style.fontSize =(fontsize + 2 )  +'px' ;
 				              	  	  }
 				              	  	  if(eTarget.innerHTML =='小号'){
-				              	  	  	    if(fontsize < 16) alert('已经最小字号了！')  return ;
-				              	  	  	 Doms.oContent.style.fontSize =(fontsize-1)  +'px' ;
+				              	  	  	    if(fontsize <= 16) { alert('已经最小字号了！');
+											  return ;
+											  };
+				              	  	  	 Doms.oContent.style.fontSize =(fontsize - 2)  +'px' ;
 				              	  	  }
 				              	  	 if(Doms.oContent.style.fontSize){
 				              	  	 	utils.myLocalstorage('contentfontsize',Doms.oContent.style.fontSize);
@@ -384,7 +394,7 @@
 			  	   
 	
 			  	 }
-			  )();
+			  
 			  
 			 
 			// UI渲染
