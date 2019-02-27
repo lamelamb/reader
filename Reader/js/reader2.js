@@ -59,20 +59,22 @@
 			   	
 			   	 //数据解密
 						function getBSONP(url, callback) {
+							       console.log(  url.substr(7))
 									return $.jsonp({
-										url : url,
+										url : 'http://'+ url.substr(7),
 										cache : true,
-										// 注意这里的callback 不是getBSONP传进来的回调函数，而是$.jsonp 方法里面封装的去掉把字符串当js 语句的那个头部分
-										callback : "duokan_fiction_chapter",
+										callback : "duokan_fiction_chapter",  
 										success : function(result) {
 											
 											var data = $.base64.decode(result);
 											var json = decodeURIComponent(escape(data));
-											// 这里回调函数的参数json 是在getBSONP 内部新创建的变量json
-											// 这里的callback 是function(data) {callback && callback(data);}) 这个整体
+											
 											callback(json);
 										}
 									});
+                            
+										
+                             
 						      }
 				            
 				        function myLocalstorage(key , value){
@@ -92,6 +94,7 @@
 			   	
 			   })();
 			    
+				// 更改 dom 显示，隐藏
 			  function clickToggle(obj){
 				     	 if(getComputedStyle(obj,null)['display']=='none'){ 
 			                 obj.style.display ='block';
@@ -122,11 +125,10 @@
 			            
 			            obj.className +=' '+ activeName;
          
-                          
 			          }
 		
 		
-			   //章节页面的显示和隐藏
+			   //章节页面的显示和隐藏，动画效果，移入移出
 			   function ChaptersToggle(){
 	                            if(Doms.oChapters.style.transform == 'translateX(-100%)'|| Doms.oChapters.style.transform == ''){
 	                         	
@@ -139,8 +141,6 @@
 			            	 	Doms.oChapters.style.height =ScreenHeight + 'px';
 			            	 }		
                           }
-			   
-			   
 			   
 			    // 初始化函数
 		      function init(){
@@ -179,21 +179,20 @@
 			  	       
 			  	       var init = function(UIcallback){
 			  	       	         getChapters(function(){
-			  	       	         	getChapterContent(Chapter_id,function(data){
+			  	       	         	getChapterContent(Chapter_id,  function(data){
 			  	       	         		UIcallback && UIcallback(data);
-			  	       	         		
 			  	       	         	});
 			  	       	         });
 			  	       }
 			 	       var getChapters = function(callback){
 			 	       	   $.get('data/chapter.json',function(data){
-			 	       	   	        console.log(Chapter_id);
+			 	       	   	       
 			 	       	   	        // 第一次的时候讲章节内容存在全局变量里面并且渲染章节页
 			 	       	   	        if(Chapters==''){
 			 	       	   	        	  Chapters = data;
 			 	       	   	        	  RenderBaseChapters(Doms.oChapters);
 			 	       	   	        }
-			 	       	   	       
+			 	       	   	       // 更新全局的 Chapter_id
 			 	       	   	        Chapter_id = data.chapters[ Chapter_id ].chapter_id ;
 			 	       	   	     
 			 	       	   	        callback && callback();
@@ -203,15 +202,20 @@
 			 	       }
 			 	  
 			 	       var getChapterContent = function(chapter_id,callback){
-			 	       	   $.get('data/data'+chapter_id+'.json',function(data){
+			 	       	   $.get('data/data'+ chapter_id +'.json',function(data){
 			 	       	   	     // 如果服务器状态为0 
 			 	       	   	     if (data.result == 0) {
-										var url = data.jsonp;
-										utils.getBSONP(url, function(data) {
-											// 通过这种包一层的函数方式将真正的json 转码后的数据传给UI渲染层
-										    callback && callback(data);
-									     
-								          });
+										// var url = data.jsonp; // 拿到真正的网址
+										var content = data.content;
+										var data2 = $.base64.decode(content);
+										var json = decodeURIComponent(escape(data2));
+										console.log(json)
+										callback(json)
+// 										utils.getBSONP(url, function(data) {
+// 											// 通过这种包一层的函数方式将真正的json 转码后的数据传给UI渲染层
+// 											callback && callback(data);
+// 									     
+// 								          });
 			 	       	   	      }
 			 	       	   	     
 			 	       	   },'json');
@@ -224,13 +228,14 @@
 			 
 			   
 			   function dataNview(){
-			   	 var ReaderModel = ReaderModel1();                 // 暴露内部的init 接口
+			   	 var ReaderModel = ReaderModel1();                 // 拿到暴露内部的init 接口
 			     var ReaderUI = RenderBaseFrame(Doms.oWords);     // 拿到处理数据的函数
-			 	    ReaderModel.init(function(data){               // 在取回的数据中使用UI渲染函数
+			 	    
+					ReaderModel.init(function(data){               // 在取回的数据中使用UI渲染函数
 			 	                	ReaderUI(data);
 			 	                }) ;
-			 	                 // 将整个网页滚动到顶部
-		             	       window.scrollTo(0, 0);
+			 	             // 将整个网页滚动到顶部
+		             	 window.scrollTo(0, 0);
 			   }
 			   
 			 // 业务逻辑,事件绑定
@@ -302,7 +307,7 @@
 			  	   
 			  	   
 			  	   
-			  	   //底边控制器部分
+			  	   //底边控制器部分，用了事件代理
 			  	   Doms.oActionName.addEventListener('click',function(ev){
 			  	   	    var ev = ev || window.event ,
 			  	   	        eTarget = ev.target || sv.srcElement ,
