@@ -358,11 +358,11 @@
                                      Doms.oContent.style.fontSize= getComputedStyle( Doms.oContent, null)['fontSize'] ;		              	  	 
 				              	  	  var fontsize = parseInt(Doms.oContent.style.fontSize);
 				              	  	  if( eTarget.innerHTML =='大号'){
-				              	  	  	    if(fontsize > 75)  return ;
+				              	  	  	    if(fontsize > 75) alert('已经最大字号了！')   return ;
 				              	  	  	 Doms.oContent.style.fontSize =(fontsize+1)  +'px' ;
 				              	  	  }
 				              	  	  if(eTarget.innerHTML =='小号'){
-				              	  	  	    if(fontsize < 24)  return ;
+				              	  	  	    if(fontsize < 16) alert('已经最小字号了！')  return ;
 				              	  	  	 Doms.oContent.style.fontSize =(fontsize-1)  +'px' ;
 				              	  	  }
 				              	  	 if(Doms.oContent.style.fontSize){
