@@ -375,6 +375,7 @@
 											  };
 				              	  	  	 Doms.oContent.style.fontSize =(fontsize - 2)  +'px' ;
 				              	  	  }
+							 Doms.oshowfontsize.innerHTML = Doms.oContent.style.fontSize;
 				              	  	 if(Doms.oContent.style.fontSize){
 				              	  	 	utils.myLocalstorage('contentfontsize',Doms.oContent.style.fontSize);
 				              	  	 }
